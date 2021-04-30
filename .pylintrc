@@ -1,0 +1,7 @@
+[MASTER]
+
+[MESSAGES CONTROL]
+disable=import-error,duplicate-code,missing-module-docstring
+
+[FORMAT]
+max-line-length=120

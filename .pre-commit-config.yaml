@@ -1,0 +1,11 @@
+exclude: rnd_embedder/insightface
+repos:
+- repo: https://github.com/pre-commit/mirrors-isort
+  rev: f0001b2
+  hooks:
+    - id: isort
+      args: ["--settings-path", "pyproject.toml"]
+- repo: https://github.com/psf/black
+  rev: 20.8b1
+  hooks:
+    - id: black

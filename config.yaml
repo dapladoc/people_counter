@@ -1,0 +1,35 @@
+lines:
+  -
+    id: "1"
+    begin:
+      x: 32
+      y: 102
+    end:
+      x: 342
+      y: 81
+  -
+    id: "2"
+    begin:
+      x: 30
+      y: 135
+    end:
+      x: 337
+      y: 120
+
+human_detector:
+  score_threshold: 0.5
+  iou_threshold: 0.5
+  model_path: "model_data/yolo4.h5"
+  anchors_path: "model_data/yolo_anchors.txt"
+  classes_path: "model_data/coco_classes.txt"
+
+nms:
+  max_overlap: 1
+
+tracker:
+  max_cosine_distance: 0.3
+  nn_budget: null
+  deepsort_model_path: "model_data/mars-small128.pb"
+
+lines_crossing_detector:
+  history_size: 1000

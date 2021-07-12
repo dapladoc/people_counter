@@ -18,8 +18,8 @@ LineCrossingDetection = namedtuple("LineCrossingDetection", ("track_id", "line_i
 
 
 physical_devices = tf.config.experimental.list_physical_devices("GPU")
-assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
-config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
+# assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
+# config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 
 class LineCrossingDetector:
@@ -181,3 +181,40 @@ class Line:
 
     def draw(self, frame, color, thickness):
         return cv2.line(frame, self.begin, self.end, color, thickness)
+
+
+class PeopleCounter:
+    def __init__(self, line_id_1, line_id_2, history_size, legend, legend_position, legend_color):
+        self.line_id_1 = line_id_1
+        self.line_id_2 = line_id_2
+        self.history_size = history_size
+        self.legend = legend
+        self.legend_position = tuple(legend_position)
+        self.legend_color = tuple(legend_color)
+        self.line_1_events = set()
+        self.counter = 0
+
+    def update(self, detections: List[LineCrossingDetection], frame_id: int):
+        for detection in detections:
+            if detection.line_id == self.line_id_1:
+                self.line_1_events.add((detection.track_id, frame_id))
+            else:
+                if detection.track_id in [t[0] for t in self.line_1_events]:
+                    self.counter += 1
+        self.remove_old(frame_id)
+
+    def remove_old(self, frame_id: int):
+        for event in self.line_1_events:
+            if event[1] - frame_id > self.history_size:
+                self.line_1_events.remove(event)
+
+    def visualize(self, frame):
+        cv2.putText(
+            frame,
+            f"{self.legend}: {self.counter}",
+            self.legend_position,
+            0,
+            1.5e-3 * frame.shape[0],
+            self.legend_color,
+            1,
+        )

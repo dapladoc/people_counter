@@ -33,3 +33,20 @@ tracker:
 
 lines_crossing_detector:
   history_size: 1000
+
+people_counter:
+  -
+    line_id_1: "1"
+    line_id_2: "2"
+    history_size: 1000
+    legend: "In"
+    legend_position: [0, 20]
+    legend_color: [0, 255, 0]
+  -
+    line_id_1: "2"
+    line_id_2: "1"
+    history_size: 1000
+    legend: "Out"
+    legend_position: [0, 50]
+    legend_color: [ 0, 0, 255 ]
+
